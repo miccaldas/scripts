@@ -1,24 +1,16 @@
-#!/usr/bin/env zsh
-
-######################################################################
-# @author      : mic (mic@$HOSTNAME)
-# @file        : gitpush
-# @created     : Friday Jun 18, 2021 08:30:18 WEST
-#
-# @description : Automate pushing to git repo 
-######################################################################
+#!/usr/bin/env python
+""" Automation of the git process of adding, commiting and pushing data """
+import subprocess
 
 
-git add .
+def push():
+    """ Subprocess is run with shell=True, so as to function exactly like in the shell """
+    title = input('Choose a title for the commit ')
+    subprocess.run(['git add .'], shell=True)
+    subprocess.run(['git commit -m ' + title], shell=True)
+    subprocess.run(['git push origin main'], shell=True)
+    subprocess.run(['git push origin_gogs main'], shell=True)
 
-echo 'Enter the commit message:'
-read commitMessage
 
-git commit -m "$commitMessage"
-
-echo 'Enter the name of the remote:'
-read remote
-
-git push $remote main
-
-read
+if __name__ == '__main__':
+    push()
