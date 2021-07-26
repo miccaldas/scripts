@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+######################################################################
+# @author      : mic (mic@$HOSTNAME)
+# @file        : nordvpn
+# @created     : Saturday Jun 19, 2021 08:08:33 WEST
+#
+# @description : Connects to VPN
+######################################################################
+
+
+cd /etc/openvpn/ovpn_udp
+sudo openvpn se492.nordvpn.com.udp.ovpn > /dev/null 
