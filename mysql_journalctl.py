@@ -1,4 +1,3 @@
-from mysql.connector import connect, Error
 import subprocess
 from loguru import logger
 
@@ -12,8 +11,8 @@ from loguru import logger
 ################################################################################
 
 fmt = "{time} - {name} - {level} - {message}"
-logger.add("spam.log", level="DEBUG", format=fmt, backtrace=True, diagnose=True)
-logger.add("error.log", level="ERROR", format=fmt, backtrace=True, diagnose=True)
+logger.add("../logs/spam.log", level="DEBUG", format=fmt, backtrace=True, diagnose=True)
+logger.add("../logs/error.log", level="ERROR", format=fmt, backtrace=True, diagnose=True)
 
 
 @logger.catch  # Decorator for loguru. All errors will go log. Has to be on all functions
