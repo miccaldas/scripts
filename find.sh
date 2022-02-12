@@ -10,4 +10,4 @@
 
 echo Search? 
 read varname
-exec sudo find / -name $varname ! -path "/mnt/*" ! -path "/var/lib/docker/*"
+exec sudo find / -name $varname ! -path "/home/mic/secondary-hard-drive/*"

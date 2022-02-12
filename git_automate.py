@@ -1,7 +1,7 @@
 import subprocess
 import time
 from datetime import datetime
-import snoop
+
 from loguru import logger
 
 ################################################################################
@@ -18,7 +18,7 @@ logger.add("../logs/spam.log", level="DEBUG", format=fmt, backtrace=True, diagno
 logger.add("../logs/error.log", level="ERROR", format=fmt, backtrace=True, diagnose=True)
 
 
-@snoop
+@logger.catch
 def git():
     """Turned the git commannds in variables and made them run in sequence
     over each one of the sources."""
