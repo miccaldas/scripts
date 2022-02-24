@@ -8,4 +8,6 @@
 # @description : Use gnu find with some folders excluded 
 ######################################################################
 
-exec sudo find / -name $1 ! -path "/home/mic/secondary-hard-drive/*"
+echo Search? 
+read varname
+exec sudo find / -name $varname ! -path "/home/mic/secondary-hard-drive/*"

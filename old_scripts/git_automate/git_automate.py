@@ -5,16 +5,14 @@ It's used through a daily cron job.
 """
 import os
 import subprocess
+import sys
 from datetime import datetime
 from time import sleep
 
 import isort  # noqa: F401
 import snoop
-from loguru import logger
-
-fmt = "{time} - {name} - {level} - {message}"
-logger.add("../logs/spam.log", level="DEBUG", format=fmt, backtrace=True, diagnose=True)
-logger.add("../logs/error.log", level="ERROR", format=fmt, backtrace=True, diagnose=True)
+from celery import Celery
+from celery.utils.log import get_task_logger
 
 subprocess.run(["isort", __file__])
 
@@ -26,7 +24,6 @@ def type_watch(source, value):
 snoop.install(watch_extras=[type_watch])
 
 
-@logger.catch
 @snoop
 def update(path_updt, folder_name):
     """
@@ -82,5 +79,26 @@ def update(path_updt, folder_name):
             subprocess.run(cmd_repo, cwd=path_updt, shell=True)
 
 
-if __name__ == "__main__":
-    update()
+app = Celery("end", broker="redis://localhost:6379/0")
+
+
+@app.task(name="git_automate.end", bind=True)
+def end(number):
+
+    print(number)
+    print(sys.argv)
+    logger = get_task_logger(__name__)
+    app.config_from_object("celeryconfig")
+    folders = ["/home/mic/python", "/usr/share/nginx/html/"]
+    for folder_name in folders:
+        logger.info("folder_name - {0}".format(folder_name))
+        for path_updt in os.listdir(folder_name):
+            logger.info("path_updt - {0}".format(path_updt))
+            res = update.delay(path_updt, folder_name)
+            print(res.state)
+            print(res.successful)
+            print(res.get())
+
+
+if __name__ == "main":
+    end()
